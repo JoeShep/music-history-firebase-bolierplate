@@ -4,3 +4,4 @@ node_modules
 .sublime-gulp.cache
 dist/bundle.js
 css/
+javascripts/fb-getter.js
