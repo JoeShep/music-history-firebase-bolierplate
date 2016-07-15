@@ -70,7 +70,7 @@ $(document).on("click", ".save_new_btn", function() {
   let songObj = buildSongObj();
   db.addSong(songObj)
     .then (function(songData) {
-      console.log("song saved", songData.key);
+      // console.log("song saved", songData.key);
     });
 });
 
@@ -79,12 +79,10 @@ $(document).on("click", ".edit-btn", function () {
   let songId = $(this).data("edit-id");
   db.getSong(songId)
     .then(function(songData){
-      console.log("songData", songData.val());
       return songData.val();
     })
     .then(function(songObj){
       return templates.songForm(songObj, songId);
-      console.log("songObj", songObj);
     })
     .then(function(finishedForm){
       $(".uiContainer--wrapper").html(finishedForm);
@@ -95,8 +93,6 @@ $(document).on("click", ".edit-btn", function () {
 $(document).on("click", ".save_edit_btn", function() {
   let songObj = buildSongObj(),
       songId = $(this).attr("id");
-  console.log("edited song", songObj);
-  console.log("id", songId);
   db.editSong(songObj, songId);
 });
 
@@ -112,7 +108,7 @@ $("#auth-btn").click(function() {
   login()
     .then(function(result) {
       var user = result.user;
-      console.log("logged in user", user.uid);
+      // console.log("logged in user", user.uid);
       db.getSongs(templates.makeSongList);
     }).catch(function(error) {
       // Handle Errors here.

@@ -82,7 +82,6 @@ let $ = require('jquery'),
 
 function getSongs(callback) {
 	firebase.database().ref('songs').on('value', function(songData){ //looks at ref of 'songs' and listens for any changes to the ref
-		console.log("sumthin happened");
 		callback(songData.val());
 	});
 }
