@@ -41,8 +41,6 @@ function makeSongList(songList) {
         text: "Favorite"
       });
 
-    console.log("", currentSong.favorite);
-
     $songListFavBtn.append(
       `<i class="material-icons">loyalty</i>`
     );

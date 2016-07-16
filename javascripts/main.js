@@ -71,9 +71,7 @@ let $ = require('jquery'),
 $(document).on("click", ".save_new_btn", function() {
   let songObj = buildSongObj();
   db.addSong(songObj)
-    .then(function(songData) {
-      console.log("", songData.key);
-    });
+    .then(function(songData) {});
 });
 
 // // Load and populate form for editing a song
@@ -81,6 +79,7 @@ $(document).on("click", ".edit-btn", function() {
   let songId = $(this).data('edit-id');
   db.getSong(songId)
     .then(function(songData) {
+      console.log("", songData);
       let newSong = songData.val();
       return templates.songForm(newSong, songId)
         .then(function(finishedForm) {
@@ -108,8 +107,8 @@ $(document).on("click", ".fav-btn", function() {
     .then(function(songData) {
       let songObj = songData.val();
       songObj.favorite = true;
-      db.editSong(songObj, songId);
-    })
+      db.editFavorites(songObj, songId);
+    });
 });
 
 $(document).on("click", ".unfav-btn", function() {
@@ -118,8 +117,8 @@ $(document).on("click", ".unfav-btn", function() {
     .then(function(songData) {
       let songObj = songData.val();
       songObj.favorite = false;
-      db.editSong(songObj, songId);
-    })
+      db.editFavorites(songObj, songId);
+    });
 });
 
 
@@ -161,24 +160,29 @@ function buildSongObj() {
 
 // Load the new song form
 $("#add-song").click(function() {
-  console.log("clicked add song");
   var songForm = templates.songForm()
     .then(function(songForm) {
       $(".uiContainer--wrapper").html(songForm);
     });
 });
 
-$("#profile").click(function() {
-  console.log("click profile");
-  db.favoriteSongs()
+$("#favorites").click(function() {
+  db.viewFavorites()
     .then(function(songData) {
-      templates.makeSongList(songData.val())
+      templates.makeSongList(songData.val());
     });
-})
+});
+
+$("#profile").click(function() {
+  db.profileSongs()
+    .then(function(songData) {
+      templates.makeSongList(songData.val());
+    });
+});
 
 $("#view-music").click(function() {
   db.viewMusic()
     .then(function(songData) {
-      templates.makeSongList(songData.val())
+      templates.makeSongList(songData.val());
     });
-})
+});

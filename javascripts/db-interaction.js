@@ -82,40 +82,57 @@ let $ = require('jquery'),
 
 function getSongs(callback) {
   let user = currentUser.getUser();
-  firebase.database().ref('songs/' + user).on('value', function(songData) {
-    console.log("", songData.val());
+  firebase.database().ref('songs/user-songs/' + user).on('value', function(songData) {
     callback(songData.val());
   });
 }
 
 function addSong(newSong) {
   let user = currentUser.getUser();
-  return firebase.database().ref(`songs/` + user).push(newSong);
+  let newPostKey = firebase.database().ref().child('songs').push().key;
+  let updates = {};
+  updates['/songs/' + newPostKey] = newSong;
+  updates['/user-songs/' + user + '/' + newPostKey] = newSong;
+  return firebase.database().ref(`songs/`).update(updates);
 }
 
 function deleteSong(songId) {
   let user = currentUser.getUser();
-  return firebase.database().ref('songs/' + user + '/' + songId).remove();
+  return firebase.database().ref('songs/user-songs/' + user + '/' + songId).remove();
 }
 
 function getSong(songId) {
   let user = currentUser.getUser();
-  return firebase.database().ref('songs/' + user + '/' + songId).once('value');
+  return firebase.database().ref('songs/user-songs/' + user + '/' + songId).once('value');
 }
 
 function editSong(songFormObj, songId) {
   let user = currentUser.getUser();
-  return firebase.database().ref('songs/' + user + '/' + songId).update(songFormObj);
+  let updates = {};
+  updates['/songs/' + songId] = songFormObj;
+  updates['/user-songs/' + user + '/' + songId] = songFormObj;
+  return firebase.database().ref('songs/').update(updates);
 }
 
-function favoriteSongs(callback) {
+function editFavorites(songFormObj, songId) {
+  console.log("test", songFormObj);
   let user = currentUser.getUser();
-  return firebase.database().ref('songs/' + user).orderByChild('favorite').equalTo(true).once('value');
+  return firebase.database().ref('songs/user-songs/' + user + '/' + songId).update(songFormObj)
+}
+
+function viewFavorites(callback) {
+  let user = currentUser.getUser();
+  return firebase.database().ref('songs/user-songs/' + user).orderByChild('favorite').equalTo(true).once('value');
+}
+
+function profileSongs(callback) {
+  let user = currentUser.getUser();
+  return firebase.database().ref('songs/user-songs/' + user).once('value');
 }
 
 function viewMusic() {
   let user = currentUser.getUser();
-  return firebase.database().ref('songs/' + user).once('value')
+  return firebase.database().ref('songs/songs/').once('value')
 }
 
 module.exports = {
@@ -124,6 +141,8 @@ module.exports = {
   getSong,
   deleteSong,
   editSong,
-  favoriteSongs,
-  viewMusic
+  editFavorites,
+  viewFavorites,
+  viewMusic,
+  profileSongs
 };
