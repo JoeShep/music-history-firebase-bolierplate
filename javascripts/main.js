@@ -102,12 +102,32 @@ $(document).on("click", ".delete-btn", function() {
   db.deleteSong(songId);
 });
 
+$(document).on("click", ".fav-btn", function() {
+  let songId = $(this).data('fav-id');
+  db.getSong(songId)
+    .then(function(songData) {
+      let songObj = songData.val();
+      songObj.favorite = true;
+      db.editSong(songObj, songId);
+    })
+});
+
+$(document).on("click", ".unfav-btn", function() {
+  let songId = $(this).data('unfav-id');
+  db.getSong(songId)
+    .then(function(songData) {
+      let songObj = songData.val();
+      songObj.favorite = false;
+      db.editSong(songObj, songId);
+    })
+});
+
+
 // User login section. Should ideally be in its own module
 $("#auth-btn").click(function() {
   let user;
   login()
     .then(function(result) {
-      // var myUserId = firebase.auth().currentUser.uid;
       user = result.user;
       currentUser.setUser();
       db.getSongs(templates.makeSongList);
@@ -133,7 +153,8 @@ function buildSongObj() {
     artist: $("#form--artist").val(),
     album: $("#form--album").val(),
     year: $("#form--year").val(),
-    uid: user
+    uid: user,
+    favorite: false
   };
   return songObj;
 }
@@ -146,3 +167,18 @@ $("#add-song").click(function() {
       $(".uiContainer--wrapper").html(songForm);
     });
 });
+
+$("#profile").click(function() {
+  console.log("click profile");
+  db.favoriteSongs()
+    .then(function(songData) {
+      templates.makeSongList(songData.val())
+    });
+})
+
+$("#view-music").click(function() {
+  db.viewMusic()
+    .then(function(songData) {
+      templates.makeSongList(songData.val())
+    });
+})

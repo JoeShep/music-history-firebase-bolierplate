@@ -30,7 +30,23 @@ function makeSongList(songList) {
         "data-delete-id": song,
         class: "delete-btn waves-effect waves-light btn",
         text: "delete"
+      }),
+      $songListFavBtn = currentSong.favorite ? $("<a>", {
+        "data-unfav-id": song,
+        class: "unfav-btn waves-effect waves-light btn",
+        text: "Unfavorite"
+      }) : $("<a>", {
+        "data-fav-id": song,
+        class: "fav-btn waves-effect waves-light btn",
+        text: "Favorite"
       });
+
+    console.log("", currentSong.favorite);
+
+    $songListFavBtn.append(
+      `<i class="material-icons">loyalty</i>`
+    );
+
     // Same as `<a id="${song}" class="delete-btn waves-effect waves-light btn">delete</a>`
 
     $songListData.append(
@@ -39,7 +55,7 @@ function makeSongList(songList) {
       <li>${currentSong.year}</li>`);
 
     // $(".song-list").append($songListItem);
-    $(".song-list").append($songListItem.append($title).append($songListData).append($songListDelete).append($songListEdit));
+    $(".song-list").append($songListItem.append($title).append($songListData).append($songListDelete).append($songListEdit).append($songListFavBtn));
   }
 }
 
