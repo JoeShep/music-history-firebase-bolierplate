@@ -10,7 +10,7 @@ function makeSongList(songList) {
     </ul>
   </div>`);
   $(".uiContainer--wrapper").html($songsDisplay);
-  for (let song in songList ) {
+  for (let song in songList ) {             //song is the custom generated id in firebase "KHFSJLDKFLKG" etc
     let currentSong = songList[song],
         $songListItem = $("<li>", {class: "song-list__item"}),
         $title = $("<span/>", {class: "song-title"}).text(currentSong.title),
