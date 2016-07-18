@@ -80,8 +80,8 @@ let $ = require('jquery'),
 // DB interaction using Firebase SDK
 // ****************************************
 
-function getSongs(callback) {
-  let user = currentUser.getUser();
+function getSongs(callback, user) {
+  // let user = currentUser.getUser();
   firebase.database().ref('songs/user-songs/' + user).on('value', function(songData) {
     callback(songData.val());
   });
@@ -115,9 +115,8 @@ function editSong(songFormObj, songId) {
 }
 
 function editFavorites(songFormObj, songId) {
-  console.log("test", songFormObj);
   let user = currentUser.getUser();
-  return firebase.database().ref('songs/user-songs/' + user + '/' + songId).update(songFormObj)
+  return firebase.database().ref('songs/user-songs/' + user + '/' + songId).update(songFormObj);
 }
 
 function viewFavorites(callback) {
@@ -132,7 +131,12 @@ function profileSongs(callback) {
 
 function viewMusic() {
   let user = currentUser.getUser();
-  return firebase.database().ref('songs/songs/').once('value')
+  return firebase.database().ref('songs/songs/').once('value');
+}
+
+function getDbSong(songId) {
+  let user = currentUser.getUser();
+  return firebase.database().ref('songs/songs/' + songId).once('value');
 }
 
 module.exports = {
@@ -144,5 +148,6 @@ module.exports = {
   editFavorites,
   viewFavorites,
   viewMusic,
-  profileSongs
+  profileSongs,
+  getDbSong
 };

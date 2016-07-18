@@ -4,7 +4,8 @@ let $ = require('jquery'),
   db = require("./db-interaction"),
   templates = require("./dom-builder"),
   login = require("./user"),
-  currentUser = require('./currentUser');
+  currentUser = require('./currentUser'),
+  firebase = require('firebase/app');
 
 
 // Using the REST API
@@ -121,6 +122,26 @@ $(document).on("click", ".unfav-btn", function() {
     });
 });
 
+$(document).on("click", ".add-btn", function() {
+  let songId = $(this).data('add-id');
+  db.getDbSong(songId)
+    .then(function(songData) {
+      let newSong = songData.val();
+      return templates.songForm(newSong, songId)
+        .then(function(finishedForm) {
+          $('.uiContainer--wrapper').html(finishedForm);
+        });
+    });
+});
+
+firebase.auth().onAuthStateChanged(function(user) {
+  if (user) {
+    currentUser.setUser(user.uid);
+    db.getSong(templates.makeUserSongList, user.uid);
+  } else {
+    currentUser.setUser(null);
+  }
+});
 
 // User login section. Should ideally be in its own module
 $("#auth-btn").click(function() {
@@ -128,8 +149,7 @@ $("#auth-btn").click(function() {
   login()
     .then(function(result) {
       user = result.user;
-      currentUser.setUser();
-      db.getSongs(templates.makeSongList);
+      db.getSongs(templates.makeUserSongList, user.uid);
     })
     .catch(function(error) {
       // Handle Errors here.
@@ -169,20 +189,24 @@ $("#add-song").click(function() {
 $("#favorites").click(function() {
   db.viewFavorites()
     .then(function(songData) {
-      templates.makeSongList(songData.val());
+      templates.makeUserSongList(songData.val());
     });
 });
 
 $("#profile").click(function() {
   db.profileSongs()
     .then(function(songData) {
-      templates.makeSongList(songData.val());
+      templates.makeUserSongList(songData.val());
     });
 });
 
 $("#view-music").click(function() {
   db.viewMusic()
     .then(function(songData) {
-      templates.makeSongList(songData.val());
+      templates.makeFullSongList(songData.val());
     });
 });
+
+// $('#logout-btn').click(function() {
+//   currentUser.logOut();
+// });

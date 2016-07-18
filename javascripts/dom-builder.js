@@ -2,8 +2,53 @@
 // This module only cares about the data it receives. It doesn't have to know about where the data comes from.
 
 let $ = require('jquery');
+const db = require("./db-interaction");
 
-function makeSongList(songList) {
+function makeFullSongList(songList) {
+  let $songsDisplay =
+    $(`<div class="uiContainer__song-list box col s12">
+    <ul class="song-list">
+    </ul>
+  </div>`);
+  $(".uiContainer--wrapper").html($songsDisplay);
+  for (let song in songList) {
+    let userSong = db.getSong(song)
+      .then(function(data) {
+        userSong = data.val();
+        let currentSong = songList[song],
+          $songListItem = $("<li>", {
+            class: "song-list__item"
+          }),
+          $title = $("<span/>", {
+            class: "song-title"
+          }).text(currentSong.title),
+          $songListData = $("<ul/>", {
+            class: "song-list__item--data"
+          }),
+          $songListAdd = '';
+        if (userSong === null) {
+          $songListAdd = $("<a>", {
+            "data-add-id": song,
+            class: "add-btn waves-effect waves-light btn",
+            text: "add"
+          });
+        }
+
+        $songListData.append(
+          `<li>${currentSong.artist}</li>
+      <li>${currentSong.album}</li>
+      <li>${currentSong.year}</li>`);
+
+        // $(".song-list").append($songListItem);
+        $(".song-list").append($songListItem.append($title).append($songListData).append($songListAdd));
+      });
+    // console.log("outside then", userSong);
+
+    // Same as `<a id="${song}" class="delete-btn waves-effect waves-light btn">delete</a>`
+  }
+}
+
+function makeUserSongList(songList) {
   let $songsDisplay =
     $(`<div class="uiContainer__song-list box col s12">
     <ul class="song-list">
@@ -80,6 +125,7 @@ function songForm(song, songId) {
 }
 
 module.exports = {
-  makeSongList,
+  makeFullSongList,
+  makeUserSongList,
   songForm
 };
