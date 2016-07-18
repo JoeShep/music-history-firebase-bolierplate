@@ -80,8 +80,9 @@ let $ = require('jquery'),
 // DB interaction using Firebase SDK
 // ****************************************
 
-function getSongs(callback) {
-	firebase.database().ref('songs').on('value', function(songData){ //looks at ref of 'songs' and listens for any changes to the ref
+function getSongs(callback, userId) {
+	let songs = firebase.database().ref('songs');
+	songs.orderByChild("uid").equalTo(userId).on('value', function(songData){ //looks at ref of 'songs' and listens for any changes to the ref
 		callback(songData.val());
 	});
 }
