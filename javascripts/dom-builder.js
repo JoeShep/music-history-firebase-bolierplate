@@ -2,45 +2,118 @@
 // This module only cares about the data it receives. It doesn't have to know about where the data comes from.
 
 let $ = require('jquery');
+const db = require("./db-interaction");
 
-function makeSongList(songList) {
+function makeFullSongList(songList) {
   let $songsDisplay =
-  $(`<div class="uiContainer__song-list box col s12">
+    $(`<div class="uiContainer__song-list box col s12">
     <ul class="song-list">
     </ul>
   </div>`);
   $(".uiContainer--wrapper").html($songsDisplay);
-  for (let song in songList ) {
+  for (let song in songList) {
+    let userSong = db.getSong(song)
+      .then(function(data) {
+        userSong = data.val();
+        let currentSong = songList[song],
+          $songListItem = $("<li>", {
+            class: "song-list__item"
+          }),
+          $title = $("<span/>", {
+            class: "song-title"
+          }).text(currentSong.title),
+          $songListData = $("<ul/>", {
+            class: "song-list__item--data"
+          }),
+          $songListAdd = '';
+        if (userSong === null) {
+          $songListAdd = $("<a>", {
+            "data-add-id": song,
+            class: "add-btn waves-effect waves-light btn",
+            text: "add"
+          });
+        }
+
+        $songListData.append(
+          `<li>${currentSong.artist}</li>
+      <li>${currentSong.album}</li>
+      <li>${currentSong.year}</li>`);
+
+        // $(".song-list").append($songListItem);
+        $(".song-list").append($songListItem.append($title).append($songListData).append($songListAdd));
+      });
+    // console.log("outside then", userSong);
+
+    // Same as `<a id="${song}" class="delete-btn waves-effect waves-light btn">delete</a>`
+  }
+}
+
+function makeUserSongList(songList) {
+  let $songsDisplay =
+    $(`<div class="uiContainer__song-list box col s12">
+    <ul class="song-list">
+    </ul>
+  </div>`);
+  $(".uiContainer--wrapper").html($songsDisplay);
+  for (let song in songList) {
     let currentSong = songList[song],
-        $songListItem = $("<li>", {class: "song-list__item"}),
-        $title = $("<span/>", {class: "song-title"}).text(currentSong.title),
-        $songListData = $("<ul/>", {class: "song-list__item--data"}),
-        $songListEdit = $("<a>", {"data-edit-id": song, class: "edit-btn waves-effect waves-light btn", text: "edit" }),
-        $songListDelete = $("<a>", {"data-delete-id": song, class: "delete-btn waves-effect waves-light btn", text: "delete" });
-        // Same as `<a id="${song}" class="delete-btn waves-effect waves-light btn">delete</a>`
+      $songListItem = $("<li>", {
+        class: "song-list__item"
+      }),
+      $title = $("<span/>", {
+        class: "song-title"
+      }).text(currentSong.title),
+      $songListData = $("<ul/>", {
+        class: "song-list__item--data"
+      }),
+      $songListEdit = $("<a>", {
+        "data-edit-id": song,
+        class: "edit-btn waves-effect waves-light btn",
+        text: "edit"
+      }),
+      $songListDelete = $("<a>", {
+        "data-delete-id": song,
+        class: "delete-btn waves-effect waves-light btn",
+        text: "delete"
+      }),
+      $songListFavBtn = currentSong.favorite ? $("<a>", {
+        "data-unfav-id": song,
+        class: "unfav-btn waves-effect waves-light btn",
+        text: "Unfavorite"
+      }) : $("<a>", {
+        "data-fav-id": song,
+        class: "fav-btn waves-effect waves-light btn",
+        text: "Favorite"
+      });
+
+    $songListFavBtn.append(
+      `<i class="material-icons">loyalty</i>`
+    );
+
+    // Same as `<a id="${song}" class="delete-btn waves-effect waves-light btn">delete</a>`
 
     $songListData.append(
       `<li>${currentSong.artist}</li>
       <li>${currentSong.album}</li>
       <li>${currentSong.year}</li>`);
 
-    $(".song-list").append($songListItem.append($title));
-    $(".song-list").append($songListItem.append($songListData).append($songListDelete).append($songListEdit));
+    // $(".song-list").append($songListItem);
+    $(".song-list").append($songListItem.append($title).append($songListData).append($songListDelete).append($songListEdit).append($songListFavBtn));
   }
 }
 
 function songForm(song, songId) {
-  return new Promise(function (resolve, reject) {
+  return new Promise(function(resolve, reject) {
     let songItem = {
-      title: song ? song.title : "",
-      artist: song ? song.artist : "",
-      year: song ? song.year : "",
-      album: song ? song.album : "",
-      formTitle: song ? `Edit "${song.title}"` : "Add a new song",
-      btnText: song ? "save changes" : "save song",
-      btnId: song ? "save_edit_btn" : "save_new_btn"
-    },
-    form =
+        title: song ? song.title : "",
+        artist: song ? song.artist : "",
+        year: song ? song.year : "",
+        album: song ? song.album : "",
+        formTitle: song ? `Edit "${song.title}"` : "Add a new song",
+        btnText: song ? "save changes" : "save song",
+        btnId: song ? "save_edit_btn" : "save_new_btn"
+      },
+      form =
       `<h3>${songItem.formTitle}</h3>
       <input type="text" id="form--title" placeholder="title" value="${songItem.title}"></input>
       <input type="text" id="form--artist" placeholder="artist" value="${songItem.artist}"></input>
@@ -52,6 +125,7 @@ function songForm(song, songId) {
 }
 
 module.exports = {
-  makeSongList,
+  makeFullSongList,
+  makeUserSongList,
   songForm
 };
