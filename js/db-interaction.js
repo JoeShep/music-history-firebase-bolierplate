@@ -36,35 +36,3 @@ module.exports = {
   deleteSong,
   editSong
 };
-
-// ****************************************
-// DB interaction using Firebase SDK
-// ****************************************
-
-// function getSongs(callback) {
-
-// }
-
-// function addSong(newSong) {
-
-// }
-
-// function deleteSong(songId) {
-
-// }
-
-// function getSong(songId) {
-
-// }
-
-// function editSong(songFormObj, songId) {
-
-// }
-
-// module.exports = {
-//   getSongs,
-//   addSong,
-//   getSong,
-//   deleteSong,
-//   editSong
-// };

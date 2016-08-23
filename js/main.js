@@ -7,7 +7,7 @@ let $ = require('jquery'),
 
 // Using the REST API
 function loadSongsToDOM() {
-
+  console.log("Need to load some songs, Buddy");
 }
 loadSongsToDOM();
 
