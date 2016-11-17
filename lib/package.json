@@ -13,12 +13,13 @@
     "grunt-contrib-watch": "^0.6.1",
     "handlebars": "^4.0.5",
     "hbsfy": "^2.7.0",
+    "jquery": "^3.1.1",
     "jshint": "^2.9.1",
     "jshint-stylish": "^2.1.0",
     "matchdep": "^0.3.0"
   },
   "dependencies": {
-    "jquery": "^3.1.0",
+    "jquery": "^3.1.1",
     "materialize": "^1.0.0",
     "materialize-css": "^0.97.7"
   }

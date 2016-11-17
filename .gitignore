@@ -1,5 +1,6 @@
-node_modules
-.sass-cache
+
+lib/.sass-cache
 .DS_Store
 dist/
 css/
+lib/node_modules
