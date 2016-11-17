@@ -12,22 +12,24 @@ function makeSongList(songList) {
   $(".uiContainer--wrapper").html($songsDisplay);
   for (let song in songList ) {
     let currentSong = songList[song],
-        $songListItem = $("<li>", {class: "song-list__item"}),
-        $title = $("<span/>", {class: "song-title"}).text(currentSong.title),
-        $songListData = $("<ul/>", {class: "song-list__item--data"}),
-        $songListEdit = $("<a>", {"data-edit-id": song, class: "edit-btn waves-effect waves-light btn", text: "edit" }),
-        $songListDelete = $("<a>", {"data-delete-id": song, class: "delete-btn waves-effect waves-light btn", text: "delete" });
+        songListItem = $("<li>", {class: "song-list__item"}),
+        title = $("<span/>", {class: "song-title"}).text(currentSong.title),
+        songListData = $("<ul/>", {class: "song-list__item--data"}),
+        songListEdit = $("<a>", {"data-edit-id": song, class: "edit-btn waves-effect waves-light btn", text: "edit" }),
+        songListDelete = $("<a>", {"data-delete-id": song, class: "delete-btn waves-effect waves-light btn", text: "delete" });
         // Same as `<a id="${song}" class="delete-btn waves-effect waves-light btn">delete</a>`
 
-    $songListData.append(
+    songListData.append(
       `<li>${currentSong.artist}</li>
       <li>${currentSong.album}</li>
       <li>${currentSong.year}</li>`);
 
-    $(".song-list").append($songListItem.append($title));
-    $(".song-list").append($songListItem.append($songListData).append($songListDelete).append($songListEdit));
+    $(".song-list").append(songListItem.append(title));
+    $(".song-list").append(songListItem.append(songListData).append(songListDelete).append(songListEdit));
   }
 }
+
+
 
 function songForm(song, songId) {
   return new Promise(function (resolve, reject) {
@@ -38,7 +40,7 @@ function songForm(song, songId) {
       album: song ? song.album : "",
       formTitle: song ? `Edit "${song.title}"` : "Add a new song",
       btnText: song ? "save changes" : "save song",
-      btnId: song ? "save_edit_btn" : "save_new_btn"
+      btnId: song ? "save_edit_btn" : "save_new_btn"  // identify which action to take
     },
     form =
       `<h3>${songItem.formTitle}</h3>
