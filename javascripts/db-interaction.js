@@ -9,19 +9,31 @@ let $ = require('jquery'),
 // DB interaction using Firebase REST API
 // ****************************************
 
-function getSongs(callback) {
+function getSongs(user) {
 	return new Promise(function(resolve, reject){
 		$.ajax({
-			url: 'https://musichistory-d16.firebaseio.com/songs.json'
+			url: `https://musichistory-d16.firebaseio.com/songs.json?orderBy="uid"&equalTo="${user}"`
 		}).done(function(songData){
 			resolve(songData);
 		});
 	});
 }
 
+//version 1 - without user id /////////////////////////////////
+// function getSongs() {
+// 	return new Promise(function(resolve, reject){
+// 		$.ajax({
+// 			url: 'https://musichistory-d16.firebaseio.com/songs.json'
+// 		}).done(function(songData){
+// 			resolve(songData);
+// 		});
+// 	});
+// }
+
 
 
 function addSong(songFormObj) {
+	console.log("addSong", songFormObj);
 	return new Promise(function(resolve, reject){
 		$.ajax({
 			url: 'https://musichistory-d16.firebaseio.com/songs.json',
@@ -33,7 +45,7 @@ function addSong(songFormObj) {
 		});
 	});
 }
-// POST - Submits data to be processed to a specified resource. Takes one parameter.
+// POST - Submits data to be processed to a specified resource.
 
 
 function deleteSong(songId) {
@@ -60,7 +72,7 @@ function getSong(songId) {
 }
 
 // GET - Requests/read data from a specified resource
-//PUT - Update data to a specified resource. Takes two parameters.
+// PUT - Update data to a specified resource.
 function editSong(songFormObj, songId) {
 	return new Promise(function(resolve, reject){
 		$.ajax({

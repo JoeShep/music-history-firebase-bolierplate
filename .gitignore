@@ -4,3 +4,4 @@ lib/.sass-cache
 dist/
 css/
 lib/node_modules
+javascripts/fb-getter.js
