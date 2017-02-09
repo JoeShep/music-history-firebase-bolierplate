@@ -8,13 +8,18 @@ let $ = require('jquery'),
 // ****************************************
 // DB interaction using Firebase REST API
 // ****************************************
+//check on crossDomain: true
 
 function getSongs(user) {
+	console.log("getSongs user", user);
 	return new Promise(function(resolve, reject){
 		$.ajax({
 			url: `https://musichistory-d16.firebaseio.com/songs.json?orderBy="uid"&equalTo="${user}"`
 		}).done(function(songData){
+			console.log("songData in promise", songData);
 			resolve(songData);
+		}).fail(function(error){
+			reject(error);
 		});
 	});
 }

@@ -9,16 +9,18 @@ let $ = require('jquery'),
 function loadSongsToDOM() {
   console.log("Need to load some songs, Buddy");
   let currentUser = user.getUser(); //add once we have login
+  console.log("currentUser in loadSongs", currentUser);
   db.getSongs(currentUser)
   // db.getSongs()
   .then(function(songData){
     console.log("got data", songData);
+    //with users, this is already happening...?
     //add the id to each song and then build the song list
-    var idArray = Object.keys(songData);
-    idArray.forEach(function(key){
-      songData[key].id = key;
-    });
-    console.log("song object with id", songData);
+    // var idArray = Object.keys(songData);
+    // idArray.forEach(function(key){
+    //   songData[key].id = key;
+    // });
+    // console.log("song object with id", songData);
     //now make the list with songData
     templates.makeSongList(songData);
   });
@@ -106,11 +108,18 @@ $("#auth-btn").click(function() {
   console.log("clicked auth");
   user.logInGoogle()
   .then(function(result){
-    let user = result.user;
+    console.log("result from login", result.user.uid);
+    // user = result.user.uid;
+    user.setUser(result.user.uid);
     $("#auth-btn").addClass("is-hidden");
     $("#logout").removeClass("is-hidden");
     loadSongsToDOM();
   });
+});
+
+$("#logout").click(function(){
+  console.log("logout clicked");
+  user.logOut();
 });
 
 //****************************************************************
