@@ -17,9 +17,10 @@ var config = {
 
 firebase.initializeApp(config);
 
-// let getFBsettings = function(){
-// 	return config;
-// };
+firebase.getFBsettings = function(){
+	console.log("getFBsettings", config);
+	return config;
+};
 
 module.exports = firebase;
 

@@ -11,7 +11,6 @@ let $ = require('jquery'),
 //check on crossDomain: true
 
 function getSongs(user) {
-	console.log("getSongs user", user);
 	return new Promise(function(resolve, reject){
 		$.ajax({
 			url: `https://musichistory-d16.firebaseio.com/songs.json?orderBy="uid"&equalTo="${user}"`

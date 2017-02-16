@@ -6,6 +6,7 @@ let firebase = require("./firebaseConfig"),
 
 //listen for changed state
 firebase.auth().onAuthStateChanged(function(user){
+	console.log("onAuthStateChanged", user);
 	if (user){
 		currentUser = user.uid;
 		console.log("current user Logged in?", currentUser);
@@ -17,6 +18,7 @@ firebase.auth().onAuthStateChanged(function(user){
 
 function logInGoogle() {
 	//all firebase functions return a promise!! Add a then when called
+	
 	return firebase.auth().signInWithPopup(provider); 
 }
 
