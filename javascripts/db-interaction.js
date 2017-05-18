@@ -12,8 +12,11 @@ let $ = require('jquery'),
 
 function getSongs(user) {
 	return new Promise(function(resolve, reject){
+		console.log("url", firebase.getFBsettings().databaseURL);
 		$.ajax({
-			url: `https://musichistory-d16.firebaseio.com/songs.json?orderBy="uid"&equalTo="${user}"`
+			url: `${firebase.getFBsettings().databaseURL}/songs.json?orderBy="uid"&equalTo="${user}"`
+
+			// url: `https://musichistory-d16.firebaseio.com/songs.json?orderBy="uid"&equalTo="${user}"`
 		}).done(function(songData){
 			console.log("songData in promise", songData);
 			resolve(songData);
@@ -27,7 +30,7 @@ function getSongs(user) {
 // function getSongs() {
 // 	return new Promise(function(resolve, reject){
 // 		$.ajax({
-// 			url: 'https://musichistory-d16.firebaseio.com/songs.json'
+// 			url: `${firebase.getFBsettings().databaseURL}/songs.json`
 // 		}).done(function(songData){
 // 			resolve(songData);
 // 		});
@@ -40,7 +43,7 @@ function addSong(songFormObj) {
 	console.log("addSong", songFormObj);
 	return new Promise(function(resolve, reject){
 		$.ajax({
-			url: 'https://musichistory-d16.firebaseio.com/songs.json',
+			url: `${firebase.getFBsettings().databaseURL}/songs.json`,
 			type: 'POST',
 			data: JSON.stringify(songFormObj),
 			dataType: 'json'
@@ -55,7 +58,7 @@ function addSong(songFormObj) {
 function deleteSong(songId) {
 	return new Promise(function(resolve, reject){
 		$.ajax({
-			url: `https://musichistory-d16.firebaseio.com/songs/${songId}.json`,
+			url: `${firebase.getFBsettings().databaseURL}/songs/${songId}.json`,
 			method: "DELETE"
 		}).done(function(){
 			resolve();
@@ -66,7 +69,7 @@ function deleteSong(songId) {
 function getSong(songId) {
 	return new Promise(function(resolve, reject){
 		$.ajax({
-			url: `https://musichistory-d16.firebaseio.com/songs/${songId}.json`
+			url: `${firebase.getFBsettings().databaseURL}/songs/${songId}.json`
 		}).done(function(songData){
 			resolve(songData);
 		}).fail(function(error){
@@ -80,7 +83,7 @@ function getSong(songId) {
 function editSong(songFormObj, songId) {
 	return new Promise(function(resolve, reject){
 		$.ajax({
-			url: `https://musichistory-d16.firebaseio.com/songs/${songId}.json`,
+			url: `${firebase.getFBsettings().databaseURL}/songs/${songId}.json`,
 			type: 'PUT',
 			data: JSON.stringify(songFormObj)
 		}).done(function(data){
