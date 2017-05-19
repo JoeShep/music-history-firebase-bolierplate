@@ -1,6 +1,5 @@
 "use strict";
 
-
 function getKey() {
   return {
     apiKey: "reallyLongValue",
