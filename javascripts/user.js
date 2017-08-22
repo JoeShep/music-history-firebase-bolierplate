@@ -5,7 +5,7 @@ let firebase = require("./firebaseConfig"),
 	 currentUser = null;
 
 //listen for changed state
-firebase.auth().onAuthStateChanged(function(user){
+firebase.auth().onAuthStateChanged((user) => {
 	console.log("onAuthStateChanged", user);
 	if (user){
 		currentUser = user.uid;

@@ -11,16 +11,16 @@ let $ = require('jquery'),
 //check on crossDomain: true
 
 function getSongs(user) {
-	return new Promise(function(resolve, reject){
+	return new Promise((resolve, reject) => {
 		console.log("url", firebase.getFBsettings().databaseURL);
 		$.ajax({
 			url: `${firebase.getFBsettings().databaseURL}/songs.json?orderBy="uid"&equalTo="${user}"`
 
 			// url: `https://musichistory-d16.firebaseio.com/songs.json?orderBy="uid"&equalTo="${user}"`
-		}).done(function(songData){
+		}).done((songData) => {
 			console.log("songData in promise", songData);
 			resolve(songData);
-		}).fail(function(error){
+		}).fail((error) => {
 			reject(error);
 		});
 	});
@@ -28,10 +28,10 @@ function getSongs(user) {
 
 //version 1 - without user id /////////////////////////////////
 // function getSongs() {
-// 	return new Promise(function(resolve, reject){
+// 	return new Promise((resolve, reject) => {
 // 		$.ajax({
 // 			url: `${firebase.getFBsettings().databaseURL}/songs.json`
-// 		}).done(function(songData){
+// 		}).done((songData) => {
 // 			resolve(songData);
 // 		});
 // 	});
@@ -41,13 +41,13 @@ function getSongs(user) {
 
 function addSong(songFormObj) {
 	console.log("addSong", songFormObj);
-	return new Promise(function(resolve, reject){
+	return new Promise((resolve, reject) => {
 		$.ajax({
 			url: `${firebase.getFBsettings().databaseURL}/songs.json`,
 			type: 'POST',
 			data: JSON.stringify(songFormObj),
 			dataType: 'json'
-		}).done(function(songID){
+		}).done((songID) => {
 			resolve(songID);
 		});
 	});
@@ -56,23 +56,23 @@ function addSong(songFormObj) {
 
 
 function deleteSong(songId) {
-	return new Promise(function(resolve, reject){
+	return new Promise((resolve, reject) => {
 		$.ajax({
 			url: `${firebase.getFBsettings().databaseURL}/songs/${songId}.json`,
 			method: "DELETE"
-		}).done(function(){
+		}).done(() => {
 			resolve();
 		});
 	});
 }
 
 function getSong(songId) {
-	return new Promise(function(resolve, reject){
+	return new Promise((resolve, reject) => {
 		$.ajax({
 			url: `${firebase.getFBsettings().databaseURL}/songs/${songId}.json`
-		}).done(function(songData){
+		}).done((songData) => {
 			resolve(songData);
-		}).fail(function(error){
+		}).fail((error) => {
 			reject(error);
 		});
 	});
@@ -81,12 +81,12 @@ function getSong(songId) {
 // GET - Requests/read data from a specified resource
 // PUT - Update data to a specified resource.
 function editSong(songFormObj, songId) {
-	return new Promise(function(resolve, reject){
+	return new Promise((resolve, reject) => {
 		$.ajax({
 			url: `${firebase.getFBsettings().databaseURL}/songs/${songId}.json`,
 			type: 'PUT',
 			data: JSON.stringify(songFormObj)
-		}).done(function(data){
+		}).done((data) => {
 			resolve(data);
 		});
 	});

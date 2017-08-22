@@ -12,12 +12,12 @@ function loadSongsToDOM() {
   console.log("currentUser in loadSongs", currentUser);
   db.getSongs(currentUser)
   // db.getSongs()
-  .then(function(songData){
+  .then((songData) => {
     console.log("got data", songData);
-    //with users, this is already happening...?
+    //with users, this is already happening...
     //add the id to each song and then build the song list
     // var idArray = Object.keys(songData);
-    // idArray.forEach(function(key){
+    // idArray.forEach((key) => {
     //   songData[key].id = key;
     // });
     // console.log("song object with id", songData);
@@ -31,11 +31,11 @@ function loadSongsToDOM() {
 // function loadSongsToDOM() {
 //   console.log("Need to load some songs, Buddy");
 //   db.getSongs()
-//   .then(function(songData){
+//   .then((songData) => {
 //     console.log("got data", songData);
 //     //add the id to each song and then build the song list
 //     var idArray = Object.keys(songData);
-//     idArray.forEach(function(key){
+//     idArray.forEach((key) => {
 //       songData[key].id = key;
 //     });
 //     console.log("song object with id", songData);
@@ -53,7 +53,7 @@ $(document).on("click", ".save_new_btn", function() {
   console.log("click save new song");
   let songObj = buildSongObj();
   db.addSong(songObj)
-  .then(function(songID){
+  .then((songID) => {
     loadSongsToDOM();
   });
 });
@@ -65,10 +65,10 @@ $(document).on("click", ".edit-btn", function () {
   console.log("click edit song");
   let songID = $(this).data("edit-id");
   db.getSong(songID)
-  .then(function(song){
+  .then((song) => {
     return templates.songForm(song, songID);
   })
-  .then(function(finishedForm){
+  .then((finishedForm) => {
     $(".uiContainer--wrapper").html(finishedForm);
   });
 });
@@ -80,7 +80,7 @@ $(document).on("click", ".save_edit_btn", function() {
     songID = $(this).attr("id");
     console.log("songID", songID);
     db.editSong(songObj, songID)
-    .then(function(data){
+    .then((data) => {
       loadSongsToDOM();
     });
 });
@@ -91,7 +91,7 @@ $(document).on("click", ".delete-btn", function () {
   console.log("clicked delete song", $(this).data("delete-id"));
   let songID = $(this).data("delete-id");
   db.deleteSong(songID)
-  .then(function(){
+  .then(() => {
      loadSongsToDOM();
   });
 });
@@ -109,7 +109,7 @@ $("#view-songs").click(function() {
 $("#auth-btn").click(function() {
   console.log("clicked auth");
   user.logInGoogle()
-  .then(function(result){
+  .then((result) => {
     console.log("result from login", result.user.uid);
     // user = result.user.uid;
     user.setUser(result.user.uid);
@@ -119,7 +119,7 @@ $("#auth-btn").click(function() {
   });
 });
 
-$("#logout").click(function(){
+$("#logout").click(() => {
   console.log("logout clicked");
   user.logOut();
 });
@@ -143,7 +143,7 @@ function buildSongObj() {
 $("#add-song").click(function() {
   console.log("clicked add song");
   var songForm = templates.songForm()
-  .then(function(songForm) {
+  .then((songForm) => {
     $(".uiContainer--wrapper").html(songForm);
   });
 });

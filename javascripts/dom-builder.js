@@ -32,7 +32,7 @@ function makeSongList(songList) {
 
 
 function songForm(song, songId) {
-  return new Promise(function (resolve, reject) {
+  return new Promise((resolve, reject) => {
     let songItem = {
       title: song ? song.title : "",
       artist: song ? song.artist : "",
