@@ -2,7 +2,7 @@
 
 
 let firebase = require("firebase/app"),
-    fb = require("./fb-getter"),
+    fb = require("./fb-key"),
     fbData = fb();
 
 require("firebase/auth");

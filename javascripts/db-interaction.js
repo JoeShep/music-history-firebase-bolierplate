@@ -3,7 +3,7 @@
 // It is only concerned with getting and setting data in the db
 
 let $ = require('jquery'),
-    firebase = require("./firebaseConfig");
+    firebase = require("./fb-config");
 
 // ****************************************
 // DB interaction using Firebase REST API

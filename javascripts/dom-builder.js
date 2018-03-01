@@ -4,12 +4,12 @@
 let $ = require('jquery');
 
 function makeSongList(songList) {
-  let $songsDisplay =
+  let songsDisplay =
   $(`<div class="uiContainer__song-list box col s12">
     <ul class="song-list">
     </ul>
   </div>`);
-  $(".uiContainer--wrapper").html($songsDisplay);
+  $(".uiContainer--wrapper").html(songsDisplay);
   for (let song in songList ) {
     let currentSong = songList[song],
         songListItem = $("<li>", {class: "song-list__item"}),
