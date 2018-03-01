@@ -1,14 +1,16 @@
 # Music History or Burning Down the House
 Grunt, Browserify, Sass, Firebase3
 
-### To run: 
+### To run:
 + Fork and clone this repo
 + cd into it
 + cd into lib and run `npm install`
-+ Add your Firebase credentials to `javascripts/fb-getter.js`
-+ Add `javascripts/fb-getter.js` to your **.gitignore**
++ Add your Firebase credentials to `javascripts/fb-keys.js`
++ Add `javascripts/fb-config.js` to your **.gitignore**
 + Run Grunt to compile the CSS and JS files
-+ Add logic for getting, adding, editing, and deleting songs: 
++ Add logic for getting, adding, editing, and deleting songs:
     + `main.js` and `db-interactions.js`
 + Add authentication logic to `user.js`
-+ Can you become a Firebase Ninja Unicorn? Oh yeah!? Yup.
++ Can you become a Firebase Ninja Unicorn? Oh yeah!
+    + Else: http://www.cornify.com/
++ You will find the answers to your questions in another branch.
