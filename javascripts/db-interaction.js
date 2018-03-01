@@ -47,9 +47,9 @@ function addSong(songFormObj) {
 
 
 function deleteSong(songId) {
-	$.ajax({
-      url: `${firebase.getFBsettings().databaseURL}/songs/${songId}.json`,
-      method: "DELETE"
+	return $.ajax({
+      	url: `${firebase.getFBsettings().databaseURL}/songs/${songId}.json`,
+      	method: "DELETE"
 	}).done((data) => {
 		return data;
 	});
