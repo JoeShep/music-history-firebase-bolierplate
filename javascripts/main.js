@@ -60,7 +60,7 @@ $(document).on("click", ".save_new_btn", function() {
 
 
 // go get the song from database and then populate the form for editing.
-//used with fat arrows, this is not the same as below. Use event.target instead.
+//used with fat arrows, 'this' is not the same as below. Use event.target instead.
 $(document).on("click", ".edit-btn", function () {
   console.log("click edit song");
   let songID = $(this).data("edit-id");
@@ -98,6 +98,8 @@ $(document).on("click", ".delete-btn", function () {
 
 
 //make the view button work.
+//not needed when user logs in since that will
+//handle showing songs
 $("#view-songs").click(function() {
     $(".uiContainer--wrapper").html("");
     loadSongsToDOM();
@@ -128,6 +130,7 @@ $("#logout").click(() => {
 
 // Helper functions for forms stuff. Nothing related to Firebase
 // Build a song obj from form data.
+// put into own module
 function buildSongObj() {
     let songObj = {
     title: $("#form--title").val(),
